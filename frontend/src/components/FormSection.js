@@ -1,6 +1,7 @@
 import "./FormSection.css";
 import React from "react";
 import FormErrors from "./FormErrors";
+import { post } from "../lib/Requests";
 
 export default function FormSection() {
   const [state, setState] = React.useState({ form: "" });
@@ -17,8 +18,8 @@ export default function FormSection() {
 
   const onLoginSubmit = async (event) => {
     event.preventDefault();
-    setErrors([])
-    console.log('username',username);
+    setErrors([]);
+    console.log("username", username);
     try {
       // const { user } = await Auth.signUp({
       //   username: email,
@@ -33,37 +34,37 @@ export default function FormSection() {
       //   }
       // });
       // console.log(user);
-      window.location.href = `/home`
+      window.location.href = `/home`;
     } catch (error) {
-        setErrors([error.message])
+      setErrors([error.message]);
     }
-    return false
-  }
+    return false;
+  };
 
   const onSignUpSubmit = async (event) => {
     event.preventDefault();
-    setErrors([])
-    console.log('username',username)
-    console.log('name',name)
+    setErrors([]);
+    console.log("username", username);
+    console.log("name", name);
     try {
-      // const { user } = await Auth.signUp({
-      //   username: email,
-      //   password: password,
-      //   attributes: {
-      //     name: name,
-      //     email: email,
-      //     preferred_username: username,
-      //   },
-      //   autoSignIn: { // optional - enables auto sign in after user is confirmed
-      //     enabled: true,
-      //   }
-      // });
-      // console.log(user);
-      window.location.href = `/home`
+      const url = `${process.env.REACT_APP_BACKEND_URL}/signup`;
+      console.log("url", url);
+      const payload_data = {
+        username: username,
+        name: name,
+      };
+      post(url, payload_data, {
+        auth: true,
+        setErrors: setErrors,
+        success: function (data) {
+          console.log(data);
+          window.location.href = `/home`;
+        },
+      });
     } catch (error) {
-        setErrors([error.message])
+      setErrors([error.message]);
     }
-    return false
+    return false;
   };
 
   return (
@@ -84,20 +85,20 @@ export default function FormSection() {
             </div>
             <FormErrors errors={errors} />
             <div className="submit">
-              <button type="submit" style={{cursor: "pointer"}}>Sign In</button>
+              <button type="submit" style={{ cursor: "pointer" }}>
+                Sign In
+              </button>
             </div>
           </form>
           <div className="already-have-an-account">
             <span>Don't have an account?</span>
             <p
-            style={{ cursor: "pointer", fontWeight: "bold", margin: 0 }}
-            onClick={() => setState((s) => ({ ...s, form: "signup" }))}
-          >
-            
- Sign Up!
-          </p>
+              style={{ cursor: "pointer", fontWeight: "bold", margin: 0 }}
+              onClick={() => setState((s) => ({ ...s, form: "signup" }))}
+            >
+              Sign Up!
+            </p>
           </div>
-          
         </div>
       ) : (
         <div className="signup">
@@ -120,7 +121,9 @@ export default function FormSection() {
             </div>
             <FormErrors errors={errors} />
             <div className="submit">
-              <button type="submit" style={{cursor: "pointer"}}>Sign Up</button>
+              <button type="submit" style={{ cursor: "pointer" }}>
+                Sign Up
+              </button>
             </div>
           </form>
           <div className="already-have-an-account">
