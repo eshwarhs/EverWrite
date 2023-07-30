@@ -2,7 +2,7 @@ from flask import request
 
 from services.list_notes import ListNotes
 from services.get_note import GetNote
-from services.create_note import UpsertNote
+from services.upsert_note import UpsertNote
 from flask_cors import cross_origin
 
 from lib.helpers import model_json
