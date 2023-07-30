@@ -19,22 +19,25 @@ export default function FormSection() {
   const onLoginSubmit = async (event) => {
     event.preventDefault();
     setErrors([]);
-    // console.log("username", username);
+    if (username.length <= 0) {
+      setErrors(["Username is required"]);
+      return false;
+    }
+    if (/^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{1,30}$/.test(username) === false) {
+      setErrors(["Invalid username"]);
+      return false;
+    }
     try {
-      // const { user } = await Auth.signUp({
-      //   username: email,
-      //   password: password,
-      //   attributes: {
-      //     name: name,
-      //     email: email,
-      //     preferred_username: username,
-      //   },
-      //   autoSignIn: { // optional - enables auto sign in after user is confirmed
-      //     enabled: true,
-      //   }
-      // });
-      // console.log(user);
-      window.location.href = `/home`;
+      const url = `${process.env.REACT_APP_BACKEND_URL}/signin`;
+      const payload_data = {
+        username: username,
+      };
+      post(url, payload_data, {
+        setErrors: setErrors,
+        success: function (data) {
+          window.location.href = `/home`;
+        },
+      });
     } catch (error) {
       setErrors([error.message]);
     }
@@ -63,7 +66,6 @@ export default function FormSection() {
         name: name,
       };
       post(url, payload_data, {
-        auth: true,
         setErrors: setErrors,
         success: function (data) {
           // console.log(data);
