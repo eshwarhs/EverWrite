@@ -18,16 +18,17 @@ async function request(method,url,payload_data,options){
 
     res = await fetch(url,attrs)
     let data = await res.json();
-    if (res.status === 200) {
+    // console.log('request',res,data)
+    if (res.status === 200 || res.status === 201 || res.status === 204 || res.status === 202 || res.status === 203)  {
       options.success(data)
     } else {
       if (options.setErrors !== null){
-        options.setErrors(data)
+        options.setErrors(data['msg'])
       }
-      console.log(res,data)
+      // console.log("-----",res,data)
     }
   } catch (err) {
-    console.log('request catch',err)
+    // console.log('request catch',err)
     if (err instanceof Response) {
         console.log('HTTP error detected:', err.status); // Here you can see the status.
         if (options.hasOwnProperty('setErrors')){

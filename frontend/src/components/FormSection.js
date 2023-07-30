@@ -19,7 +19,7 @@ export default function FormSection() {
   const onLoginSubmit = async (event) => {
     event.preventDefault();
     setErrors([]);
-    console.log("username", username);
+    // console.log("username", username);
     try {
       // const { user } = await Auth.signUp({
       //   username: email,
@@ -44,11 +44,20 @@ export default function FormSection() {
   const onSignUpSubmit = async (event) => {
     event.preventDefault();
     setErrors([]);
-    console.log("username", username);
-    console.log("name", name);
+    if (username.length <= 0) {
+      setErrors(["Username is required"]);
+      return false;
+    }
+    if (name.length <= 0) {
+      setErrors(["Name is required"]);
+      return false;
+    }
+    if (/^(?!.*\.\.)(?!.*\.$)[^\W][\w.]{1,30}$/.test(username) === false) {
+      setErrors(["Invalid username"]);
+      return false;
+    }
     try {
       const url = `${process.env.REACT_APP_BACKEND_URL}/signup`;
-      console.log("url", url);
       const payload_data = {
         username: username,
         name: name,
@@ -57,7 +66,7 @@ export default function FormSection() {
         auth: true,
         setErrors: setErrors,
         success: function (data) {
-          console.log(data);
+          // console.log(data);
           window.location.href = `/home`;
         },
       });

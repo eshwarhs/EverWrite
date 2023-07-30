@@ -20,7 +20,7 @@ class Signup:
         users_collection = db['users']
 
         if users_collection.find_one({'username': username}):
-            model['errors'] = 'Username already exists'
+            model['errors'] = {'msg': 'Username already exists'}
             model['code'] = 409
         else:
             user = {'name': name, 'username': username, 'created_at': now}

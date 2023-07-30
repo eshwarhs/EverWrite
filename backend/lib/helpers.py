@@ -1,2 +1,4 @@
 def model_json(model):
-    return model['errors'], model['code']
+    if model['errors'] is not None:
+        return model['errors'], model['code']
+    return model['data'], model['code']
