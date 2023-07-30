@@ -35,11 +35,10 @@ services:
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=passwd
-      - MONGO_INITDB_DATABASE:everwrite
     volumes:
-      - ./backend/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js
+      - ./backend/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
 
-networks:
+networks: 
   everwrite-network:
     driver: bridge
     name: everwrite-network

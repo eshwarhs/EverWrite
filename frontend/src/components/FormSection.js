@@ -105,7 +105,10 @@ export default function FormSection() {
             <span>Don't have an account?</span>
             <p
               style={{ cursor: "pointer", fontWeight: "bold", margin: 0 }}
-              onClick={() => setState((s) => ({ ...s, form: "signup" }))}
+              onClick={() => {
+                setErrors([])
+                setState((s) => ({ ...s, form: "signup" }))
+              }}
             >
               Sign Up!
             </p>
@@ -141,7 +144,10 @@ export default function FormSection() {
             <span>Already have an account?</span>
             <p
               style={{ cursor: "pointer", fontWeight: "bold", margin: 0 }}
-              onClick={() => setState((s) => ({ ...s, form: "login" }))}
+              onClick={() => {
+                setErrors([])
+                setState((s) => ({ ...s, form: "login" }))
+              }}
             >
               Sign in!
             </p>
