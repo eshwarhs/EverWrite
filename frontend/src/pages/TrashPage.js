@@ -5,10 +5,10 @@ import Topbar from "../components/Topbar.js";
 export default function HomePage() {
     return (
       <article>
-        <Topbar title="Home"/>
-        <SideBar active="home"/>
+        <Topbar title="Trash"/>
+        <SideBar active="trash"/>
         <div className='content'>
-          <p>Home Page</p>
+          <p>Trash Page</p>
         </div>
       </article>
     );
