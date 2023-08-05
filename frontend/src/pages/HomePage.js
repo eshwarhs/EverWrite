@@ -1,6 +1,7 @@
 import React from "react";
 import SideBar from "../components/Sidebar.js";
 import Topbar from "../components/Topbar.js";
+import NoteCard from "../components/NoteCard.js";
 
 export default function HomePage() {
     return (
@@ -8,7 +9,7 @@ export default function HomePage() {
         <Topbar title="Home"/>
         <SideBar active="home"/>
         <div className='content'>
-          <p>Home Page</p>
+          <NoteCard />
         </div>
       </article>
     );
