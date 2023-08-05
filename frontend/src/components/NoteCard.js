@@ -5,6 +5,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
+import TextTruncate from "react-text-truncate";
 
 const bull = (
   <Box
@@ -15,23 +16,40 @@ const bull = (
   </Box>
 );
 
-export default function NoteCard() {
+export default function NoteCard(props) {
+  console.log(props.data.title);
   return (
-    <Card sx={{ minWidth: 275 }}>
+    <Card
+      sx={{
+        alignItems: "center",
+        minWidth: "18em",
+        maxWidth: "18em",
+        maxHeight: "16em",
+        minHeight: "16em",
+      }}
+      raised="true"
+    >
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Word of the Day
-        </Typography>
         <Typography variant="h5" component="div">
-          be{bull}nev{bull}o{bull}lent
+          <TextTruncate
+            line={1}
+            element="span"
+            truncateText="…"
+            text={props.data.title}
+            // textTruncateChild={<a href="/">Read on</a>}
+          />
         </Typography>
         <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          adjective
+          Last updated: {props.data.updated_at} ago
         </Typography>
         <Typography variant="body2">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
+          <TextTruncate
+            line={3}
+            element="p"
+            truncateText="…"
+            text={props.data.content}
+            // textTruncateChild={<a href="/">Read on</a>}
+          />
         </Typography>
       </CardContent>
       <CardActions>
