@@ -1,10 +1,11 @@
 import { Drawer, List, Stack, Toolbar } from "@mui/material";
 import React from "react";
 import SidebarItem from "./SidebarItem";
-import { ListItemButton, ListItemIcon } from "@mui/material";
+import { ListItemButton, ListItemIcon, Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Cookies from "js-cookie";
+import SendIcon from "@mui/icons-material/Send";
 
 export default function Sidebar(props) {
   return (
@@ -47,12 +48,11 @@ export default function Sidebar(props) {
             color: "#FFFFFF",
             paddingY: "12px",
             paddingX: "24px",
-            paddingTop: "205%"
           }}
           onClick={(event) => {
             Cookies.remove("username");
             Cookies.remove("name");
-            window.location.href = `/home`;
+            window.location.href = `/`;
           }}
         >
           <ListItemIcon
