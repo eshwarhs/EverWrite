@@ -8,11 +8,13 @@ import { FormControl } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { get, put } from "../lib/Requests";
 import { Circles } from "react-loader-spinner";
+import ChipInput from "material-ui-chip-input";
 
 export default function EditorPage(props) {
   const [user, setUser] = React.useState(Cookies.get("username"));
   const [content, setContent] = React.useState("");
   const [title, setTitle] = React.useState("");
+  const [tags, setTags] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const dataFetchedRef = React.useRef(false);
 
@@ -23,6 +25,7 @@ export default function EditorPage(props) {
       success: function (data) {
         setIsLoading(false);
         setTitle(data.title);
+        setTags(data.tags);
         setContent(data.content);
       },
     });
@@ -37,18 +40,23 @@ export default function EditorPage(props) {
   }, []);
 
   const title_onchange = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     setTitle(event.target.value);
   };
 
   const content_onchange = (event) => {
-    console.log(event);
+    // console.log(event);
     setContent(event);
+  };
+
+  const tags_onchange = (event) => {
+    // console.log(event);
+    setTags(event);
+    // console.log(tags);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("submit", content);
     try {
       const id = window.location.pathname.split("/")[3];
       const url = `${process.env.REACT_APP_BACKEND_URL}/${user}/notes`;
@@ -56,8 +64,8 @@ export default function EditorPage(props) {
         _id: id,
         title: title,
         content: content,
+        tags: [...tags],
         username: user,
-        tags: [],
       };
 
       put(url, payload_data, {
@@ -89,14 +97,24 @@ export default function EditorPage(props) {
                 label="Title"
                 value={title}
                 onChange={title_onchange}
+                sx={{marginY: "1rem"}}
               ></TextField>
+              <ChipInput
+                label="Tags"
+                allowDuplicates={false}
+                defaultValue={tags}
+                sx={{marginY: "10rem"}}
+                onChange={tags_onchange}
+              />
               <Editor
                 value={content}
                 init={{
-                  height: 500,
+                  height: 600,
+                  width: "100%",   
                   menubar: false,
                 }}
                 onEditorChange={content_onchange}
+                sx={{marginY: "10rem"}}
               />
               <Button type="submit">Submit</Button>
             </FormControl>
