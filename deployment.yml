@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: everwrite
+  labels:
+    name: everwrite
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: everwrite
+  namespace: everwrite
+  labels:
+    app: everwrite-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: everwrite-backend
+  template:
+    metadata:
+      labels:
+        app: everwrite-backend
+    spec:
+      containers:
+        - name: backend
+          image: everwrite-backend:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 4567
+          env:
+            - name: PORT
+              value: "4567"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: everwrite-backend-service
+  namespace: everwrite
+spec:
+  ports:
+  - port: 4567
+    protocol: TCP
+    targetPort: 4567
+    nodePort: 32000
+  selector:
+    app: everwrite-backend
+  type: LoadBalancer
