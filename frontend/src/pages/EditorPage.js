@@ -11,7 +11,7 @@ import { Circles } from "react-loader-spinner";
 import ChipInput from "material-ui-chip-input";
 
 export default function EditorPage(props) {
-  const [user, setUser] = React.useState(Cookies.get("username"));
+  const user = Cookies.get("username");
   const [content, setContent] = React.useState("");
   const [title, setTitle] = React.useState("");
   const [tags, setTags] = React.useState([]);
