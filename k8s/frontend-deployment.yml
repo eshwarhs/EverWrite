@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: everwrite-frontend
+  namespace: everwrite
+  labels:
+    app: everwrite-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: everwrite-frontend
+  template:
+    metadata:
+      labels:
+        app: everwrite-frontend
+    spec:
+      containers:
+        - name: everwrite-frontend
+          image: everwrite-frontend:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3000
+          env:
+            - name: REACT_APP_BACKEND_URL
+              value: "http://everwrite-backend"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: everwrite-frontend-service
+  namespace: everwrite
+spec:
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 3000
+      name: http
+  selector:
+    app: everwrite-frontend
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: everwrite-ingress
+  namespace: everwrite
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx-example
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: everwrite-frontend-service
+                port:
+                  number: 80
