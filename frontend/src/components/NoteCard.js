@@ -17,11 +17,11 @@ export default function NoteCard(props) {
     return str.length > l ? str.substring(0, l - 3) + "..." : str;
   }
 
-  const url = `${user}/notes/${props.data._id}`;
+  const url = `/api${user}/notes/${props.data._id}`;
 
   function deleteNote() {
     console.log("Deleting");
-    const url = `${process.env.REACT_APP_BACKEND_URL}/${user}/notes`;
+    const url = `/api/${user}/notes`;
     put(
       url,
       {
@@ -42,7 +42,7 @@ export default function NoteCard(props) {
 
   function restoreNote() {
     console.log("Restoring");
-    const url = `${process.env.REACT_APP_BACKEND_URL}/${user}/notes`;
+    const url = `/api/${user}/notes`;
     put(
       url,
       {
