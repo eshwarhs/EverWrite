@@ -12,9 +12,16 @@ kind: ConfigMap
 metadata:
   name: mongodb-init-script
 data:
-  init.js: |
+  mongo-init.js: |
     conn = new Mongo();
     db = conn.getDB("everwrite");
+    db.createUser(
+      {
+        user: "root",
+        pwd: 'passwd',
+        roles: [ { role: 'root', db: 'everwrite' } ]
+      }
+    );
     db.createCollection("users");
     db.createCollection("notes");
 ---
@@ -65,7 +72,7 @@ spec:
             - name: mongodb-persistent-storage
               mountPath: /data/db
             - name: "init-database"
-              mountPath: "/docker-entrypoint-initdb.d/mongo-init.js"
+              mountPath: "/docker-entrypoint-initdb.d/"
       volumes:
         - name: mongodb-persistent-storage
           persistentVolumeClaim:

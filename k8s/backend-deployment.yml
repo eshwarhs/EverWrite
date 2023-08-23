@@ -32,7 +32,7 @@ metadata:
   namespace: everwrite
 spec:
   ports:
-    - port: 4567
+    - port: 80
       protocol: TCP
       targetPort: 4567
   selector:
