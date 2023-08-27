@@ -17,8 +17,7 @@ spec:
     spec:
       containers:
         - name: everwrite-backend
-          image: everwrite-backend:latest
-          imagePullPolicy: Never
+          image: eshwarhs99/everwrite:backend
           ports:
             - containerPort: 4567
           env:

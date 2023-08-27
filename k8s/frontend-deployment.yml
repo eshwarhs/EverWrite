@@ -17,8 +17,7 @@ spec:
     spec:
       containers:
         - name: everwrite-frontend
-          image: everwrite-frontend:latest
-          imagePullPolicy: Never
+          image: eshwarhs99/everwrite:frontend
           ports:
             - containerPort: 80
           env:
