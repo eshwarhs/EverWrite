@@ -38,23 +38,3 @@ spec:
       name: http
   selector:
     app: everwrite-frontend
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: everwrite-ingress
-  namespace: everwrite
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-spec:
-  ingressClassName: nginx-example
-  rules:
-    - http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: everwrite-frontend-service
-                port:
-                  number: 80
