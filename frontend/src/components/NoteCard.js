@@ -10,7 +10,11 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import RestorePageIcon from "@mui/icons-material/RestorePage";
 import Cookies from "js-cookie";
 import { put } from "../lib/Requests";
-import { message_time_ago, time_ago, time_future } from '../lib/DateTimeFormats';
+import {
+  message_time_ago,
+  time_ago,
+  time_future,
+} from "../lib/DateTimeFormats";
 
 export default function NoteCard(props) {
   const user = Cookies.get("username");
@@ -85,7 +89,7 @@ export default function NoteCard(props) {
             </span>
           </Typography>
           <Typography sx={{ mb: 1.5 }} color="text.secondary">
-            Last updated:{" "}
+            Last updated:{" " + time_ago(props.data.updated_at) + " ago"}
             <ReactTimeAgo date={props.data.updated_at} locale="en-US" />
           </Typography>
           <Typography
@@ -139,7 +143,7 @@ export default function NoteCard(props) {
               </span>
             </Typography>
             <Typography sx={{ mb: 1.5 }} color="text.secondary">
-              Last updated:{" " + message_time_ago(props.data.updated_at) + " ago"}
+              Last updated:{" " + time_ago(props.data.updated_at) + " ago"}
             </Typography>
             <Typography
               variant="body2"
