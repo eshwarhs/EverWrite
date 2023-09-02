@@ -22,7 +22,7 @@ jobs:
 
       - name: Build and tag Docker image
         run: |
-          docker build -t eshwarhs99/everwrite:frontend frontend/
+          docker build -t eshwarhs99/everwrite:frontend frontend/ -f frontend/Dockerfile.prod
           docker tag eshwarhs99/everwrite:frontend eshwarhs99/everwrite:frontend
 
       - name: Push Docker image to registry
