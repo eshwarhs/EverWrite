@@ -20,7 +20,10 @@ export default function EditorPage(props) {
 
   const loadData = async () => {
     const id = window.location.pathname.split("/")[3];
-    const url = `/api/${user}/notes/${id}`;
+    let url = `/api/${user}/notes/${id}`;
+    if (process.env.REACT_APP_ENV === "development") {
+      url = `${process.env.REACT_APP_BACKEND_URL}/api/${user}/notes/${id}`;
+    }
     get(url, {
       success: function (data) {
         setIsLoading(false);
@@ -59,7 +62,10 @@ export default function EditorPage(props) {
     event.preventDefault();
     try {
       const id = window.location.pathname.split("/")[3];
-      const url = `/api/${user}/notes`;
+      let url = `/api/${user}/notes`;
+      if (process.env.REACT_APP_ENV === "development") {
+        url = `${process.env.REACT_APP_BACKEND_URL}/api/${user}/notes`;
+      }
       const payload_data = {
         _id: id,
         title: title,
@@ -97,24 +103,24 @@ export default function EditorPage(props) {
                 label="Title"
                 value={title}
                 onChange={title_onchange}
-                sx={{marginY: "1rem"}}
+                sx={{ marginY: "1rem" }}
               ></TextField>
               <ChipInput
                 label="Tags"
                 allowDuplicates={false}
                 defaultValue={tags}
-                sx={{marginY: "10rem"}}
+                sx={{ marginY: "10rem" }}
                 onChange={tags_onchange}
               />
               <Editor
                 value={content}
                 init={{
                   height: 600,
-                  width: "100%",   
+                  width: "100%",
                   menubar: false,
                 }}
                 onEditorChange={content_onchange}
-                sx={{marginY: "10rem"}}
+                sx={{ marginY: "10rem" }}
               />
               <Button type="submit">Submit</Button>
             </FormControl>

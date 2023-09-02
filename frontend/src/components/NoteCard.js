@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 import ReactTimeAgo from "react-time-ago";
 import { CardActionArea } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import RestorePageIcon from '@mui/icons-material/RestorePage';
+import RestorePageIcon from "@mui/icons-material/RestorePage";
 import Cookies from "js-cookie";
 import { put } from "../lib/Requests";
 
@@ -20,8 +20,10 @@ export default function NoteCard(props) {
   const url = `/api${user}/notes/${props.data._id}`;
 
   function deleteNote() {
-    console.log("Deleting");
-    const url = `/api/${user}/notes`;
+    let url = `/api/${user}/notes`;
+    if (process.env.REACT_APP_ENV === "development") {
+      url = `${process.env.REACT_APP_BACKEND_URL}/api/${user}/notes`;
+    }
     put(
       url,
       {
@@ -41,8 +43,10 @@ export default function NoteCard(props) {
   }
 
   function restoreNote() {
-    console.log("Restoring");
-    const url = `/api/${user}/notes`;
+    let url = `/api/${user}/notes`;
+    if (process.env.REACT_APP_ENV === "development") {
+      url = `${process.env.REACT_APP_BACKEND_URL}/api/${user}/notes`;
+    }
     put(
       url,
       {
