@@ -21,9 +21,9 @@ export default function Sidebar(props) {
   const handleClick = async () => {
     try {
       let url = `/api/${user}/notes`;
-    if (process.env.REACT_APP_ENV === "development") {
-      url = `${process.env.REACT_APP_BACKEND_URL}/api/${user}/notes`;
-    }
+      if (process.env.REACT_APP_ENV === "development") {
+        url = `${process.env.REACT_APP_BACKEND_URL}/api/${user}/notes`;
+      }
       const payload_data = {
         title: "Title",
         content: "",

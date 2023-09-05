@@ -10,11 +10,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import RestorePageIcon from "@mui/icons-material/RestorePage";
 import Cookies from "js-cookie";
 import { put } from "../lib/Requests";
-import {
-  message_time_ago,
-  time_ago,
-  time_future,
-} from "../lib/DateTimeFormats";
+import { time_ago } from "../lib/DateTimeFormats";
 
 export default function NoteCard(props) {
   const user = Cookies.get("username");
