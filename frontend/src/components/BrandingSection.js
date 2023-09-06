@@ -8,7 +8,7 @@ export default function BrandingSection() {
       <TypeAnimation
         sequence={[
           // Same substring at the start will only be typed once, initially
-          "Welcome to 🗒 Everwrite.",
+          "Welcome to 🗒 EverWrite.",
           2000,
           "Capture and organize your thoughts.",
           1000,
