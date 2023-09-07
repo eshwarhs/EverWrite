@@ -25,6 +25,10 @@ export default function TrashPage() {
     });
   };
 
+  const onRestore = () => {
+    loadData();
+  }
+
   React.useEffect(() => {
     //prevents double call
     if (dataFetchedRef.current) return;
@@ -54,7 +58,7 @@ export default function TrashPage() {
         ) : (
           <div className="cardGrid">
             {notes.map((note) => {
-              return <NoteCard key={note._id} data={note} trashed="true" />;
+              return <NoteCard key={note._id} data={note} trashed="true" onRestore={onRestore} />;
             })}
           </div>
         )}

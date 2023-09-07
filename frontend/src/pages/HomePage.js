@@ -25,6 +25,10 @@ export default function HomePage() {
     });
   };
 
+  const onDelete = () => {
+    loadData();
+  }
+
   React.useEffect(() => {
     //prevents double call
     if (dataFetchedRef.current) return;
@@ -54,7 +58,7 @@ export default function HomePage() {
         ) : (
           <div className="cardGrid">
             {notes.map((note) => {
-              return <NoteCard key={note._id} data={note} trashed="false" />;
+              return <NoteCard key={note._id} data={note} trashed="false" onDelete={onDelete} />;
             })}
           </div>
         )}

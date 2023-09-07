@@ -37,6 +37,7 @@ export default function NoteCard(props) {
       {
         success: function (data) {
           console.log("Deleted");
+          props.onDelete();
         },
       }
     );
@@ -60,6 +61,7 @@ export default function NoteCard(props) {
       {
         success: function (data) {
           console.log("Restored");
+          props.onRestore();
         },
       }
     );
