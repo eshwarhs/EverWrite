@@ -14,10 +14,14 @@
 
 ### Architecture
 
+#### CI/CD Flow
+<img align="center" src='./assets/EverWriteCICD.jpg' /><br>
+
+
 <hr>
 
 ### Setup 
-<b>Pre-requisites: Docker, Minikube, kubectl <b> <br><br>
+<b>Pre-requisites: Docker, Minikube, kubectl </b> <br><br>
 1. Pull the code to your local directory
 2. Deploy the K8 configurations on Minikube cluster
 ```
