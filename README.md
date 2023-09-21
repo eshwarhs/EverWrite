@@ -18,7 +18,7 @@
 <img align="center" src='./assets/EverWriteCICD.jpg' /><br>
 
 #### K8 Cluster Architecture
-<img src='/assets/Everwrite-Cluster_Arch.jpg' /><br> 
+<img src='/assets/Everwrite-Cluster.jpg' /><br> 
 
 
 <hr>
