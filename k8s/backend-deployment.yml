@@ -14,6 +14,12 @@ spec:
     metadata:
       labels:
         app: everwrite-backend
+      annotations:
+        annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io.scheme: "http"
+        prometheus.io/path: "/metrics"
+        prometheus.io/port: "4567"
     spec:
       containers:
         - name: everwrite-backend
