@@ -1,7 +1,8 @@
 version: '3.8'
 
 services:
-  frontend:
+  everwrite-frontend:
+    container_name: everwrite-frontend
     build: ./frontend
     environment:
       - REACT_APP_BACKEND_URL=http://localhost:4567
@@ -13,9 +14,10 @@ services:
     networks:
       - everwrite-network
     depends_on:
-      - backend
+      - everwrite-backend
 
-  backend:
+  everwrite-backend:
+    container_name: everwrite-backend
     build: ./backend
     environment:
       - MONGO_URL=mongodb://root:passwd@mongo:27017
@@ -40,6 +42,30 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=passwd
     volumes:
       - ./backend/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+  
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:v2.2.1
+    volumes:
+      - ./k8s/prom_config.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - everwrite-network
+    depends_on:
+      - everwrite-backend
+  
+  grafana:
+    image: grafana/grafana:5.1.0
+    volumes:
+      - ./grafana/config.ini:/etc/grafana/grafana.ini
+      - ./grafana/datasource.yaml:/etc/grafana/provisioning/datasources/default.yaml
+      - ./grafana/dashboard.yaml:/etc/grafana/provisioning/dashboards/default.yaml
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+    ports:
+      - 3030:3030
+    networks:
+      - everwrite-network
+    depends_on:
+      - prometheus
 
 networks: 
   everwrite-network:

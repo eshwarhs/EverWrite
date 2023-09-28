@@ -8,11 +8,13 @@ import routes.notes
 
 app = Flask(__name__)
 cors = CORS(app)
-metrics = PrometheusMetrics(app)
+
 
 routes.general.load(app)
 routes.user.load(app)
 routes.notes.load(app)
 
+metrics = PrometheusMetrics(app)
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run("0.0.0.0", 4567, threaded=True)
