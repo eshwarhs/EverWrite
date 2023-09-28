@@ -1,16 +1,11 @@
 global:
   scrape_interval: 3s
 
-  external_labels:
-    monitor: "everwrite"
-
-rule_files:
-
 scrape_configs:
   - job_name: "prometheus"
     static_configs:
       - targets: ["prometheus:9090"]
 
-  - job_name: "example"
+  - job_name: "everwrite"
     static_configs:
       - targets: ["everwrite-backend:4567"]
