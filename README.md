@@ -29,10 +29,11 @@
 2. Deploy the K8 configurations on Minikube cluster
 ```
 cd k8s
-kubectl apply -f namespace.yml
-kubectl apply -f backend-deployment.yml
-kubectl apply -f frontend-deployment.yml
-kubectl apply -f mongodb-deployment.yml
+kubectl apply -f namespace.yml -n everwrite
+kubectl apply -f backend-deployment.yml -n everwrite
+kubectl apply -f frontend-deployment.yml -n everwrite
+kubectl apply -f mongodb-deployment.yml -n everwrite
+kuebctl apply -f prometheus-deployment.yml -n everwrite
 ```
 3.
 To access the frontend web app  -
@@ -56,3 +57,5 @@ minikube service everwrite-frontend-service -n everwrite
 <img src='./assets/home.png' /><br>
 <img src='./assets/editor.png' /><br>
 <img src='./assets/trash.png' /><br>
+<img src='./assets/grafana_dashboard.png' /><br>
+<img src='./assets/prometheus_metrics.png' /><br>
