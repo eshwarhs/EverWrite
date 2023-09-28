@@ -1,0 +1,174 @@
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: grafana-deployment
+#   namespace: everwrite
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: grafana
+#   template:
+#     metadata:
+#       labels:
+#         app: grafana
+#     spec:
+#       containers:
+#         - name: grafana
+#           image: grafana/grafana:latest  # Use the Grafana Docker image of your choice
+#           ports:
+#             - containerPort: 3030  # Grafana's default port
+#           volumeMounts:
+#             - name: vol1
+#               mountPath: /etc/grafana/provisioning/datasources
+#             - name: vol2
+#               mountPath: /etc/grafana/provisioning/dashboards
+#       volumes:
+#         - name: vol1
+#           configMap:
+#             name: grafana-datasource-config
+#         - name: vol2
+#           configMap:
+#             name: grafana-dashboad-config
+# ---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: grafana-service
+#   namespace: everwrite
+# spec:
+#   selector:
+#     app: grafana
+#   ports:
+#     - protocol: TCP
+#       port: 80  # Expose Grafana on port 80 externally
+#       targetPort: 3030  # Forward traffic to port 3000 on the Grafana pods
+#   type: ClusterIP  # Use LoadBalancer type for external access (You can use NodePort or ClusterIP based on your needs)
+# ---
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: grafana-datasource-config
+#   namespace: everwrite
+# data: 
+#   default.yaml: |-
+#     apiVersion: 1
+
+#     datasources:
+#       - name: Prometheus
+#         type: prometheus
+#         editable: true
+#         is_default: true
+#         access: proxy
+#         url: http://prometheus-service.everwrite.svc.cluster.local:9090
+# ---
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: grafana-dashboad-config
+#   namespace: everwrite
+# data: 
+#   default.yaml: |-
+#     apiVersion: 1
+
+#     providers:
+#       - name: "Prometheus"
+#         orgId: 1
+#         folder: ""
+#         type: file
+#         disableDeletion: false
+#         editable: true
+#         options:
+#           path: /var/lib/grafana/dashboards
+
+
+
+
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-datasources
+  namespace: everwrite
+data:
+  prometheus.yaml: |-
+    {
+        "apiVersion": 1,
+        "datasources": [
+            {
+               "access":"proxy",
+                "editable": true,
+                "name": "prometheus",
+                "orgId": 1,
+                "type": "prometheus",
+                "url": "http://prometheus-service.everwrite.svc.cluster.local",
+                "version": 1
+            }
+        ]
+    }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana-deployment
+  namespace: everwrite
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      name: grafana
+      labels:
+        app: grafana
+    spec:
+      containers:
+      - name: grafana
+        image: grafana/grafana:latest
+        ports:
+        - name: grafana
+          containerPort: 3000
+        volumeMounts:
+          - mountPath: /var/lib/grafana
+            name: grafana-storage
+          - mountPath: /etc/grafana/provisioning/datasources
+            name: grafana-datasources
+            readOnly: false
+      volumes:
+        - name: grafana-storage
+          emptyDir: {}
+        - name: grafana-datasources
+          configMap:
+              defaultMode: 420
+              name: grafana-datasources
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grafana-service
+  namespace: everwrite
+  annotations:
+      prometheus.io/scrape: 'true'
+      prometheus.io/port:   '9090'
+spec:
+  selector:
+    app: grafana
+  ports:
+    - protocol: TCP
+      port: 80  # Expose Grafana on port 80 externally
+      targetPort: 3000  # Forward traffic to port 3000 on the Grafana pods
+  type: ClusterIP
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: grafana-service
+#   namespace: everwrite
+# spec:
+#   selector:
+#     app: grafana
+#   ports:
+#     - protocol: TCP
+#       port: 80  # Expose Grafana on port 80 externally
+#       targetPort: 3030  # Forward traffic to port 3000 on the Grafana pods
+#   type: ClusterIP

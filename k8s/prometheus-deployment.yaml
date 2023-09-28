@@ -46,10 +46,10 @@ data:
     scrape_configs:
       - job_name: 'prometheus'
         static_configs:
-          - targets: ['prometheus:9090']
+          - targets: ['prometheus-service.everwrite.svc.cluster.local']
       - job_name: 'everwrite'
         static_configs:
-          - targets: ['everwrite-backend-6cff95f4df-cq2x9:4567']
+          - targets: ['everwrite-backend-service.everwrite.svc.cluster.local']
 ---
 apiVersion: v1
 kind: Service
