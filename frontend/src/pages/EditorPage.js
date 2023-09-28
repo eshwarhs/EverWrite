@@ -9,6 +9,8 @@ import TextField from "@mui/material/TextField";
 import { get, put } from "../lib/Requests";
 import { Circles } from "react-loader-spinner";
 import ChipInput from "material-ui-chip-input";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function EditorPage(props) {
   const user = Cookies.get("username");
@@ -75,7 +77,12 @@ export default function EditorPage(props) {
       };
 
       put(url, payload_data, {
-        success: function () {},
+        success: function () {
+          console.log("Success saving content");
+          toast.success("Note Saved!", {
+            position: toast.POSITION.TOP_RIGHT,
+          });
+        },
       });
     } catch (error) {
       console.error("Error saving content:", error);
@@ -85,6 +92,7 @@ export default function EditorPage(props) {
   return (
     <article>
       <Topbar title="Editor" />
+      <ToastContainer />
       <SideBar />
       <div className="content">
         {isLoading ? (
@@ -98,7 +106,7 @@ export default function EditorPage(props) {
           />
         ) : (
           <form onSubmit={handleSubmit}>
-            <FormControl style={{ width: "100%", }}>
+            <FormControl style={{ width: "100%" }}>
               <TextField
                 label="Title"
                 value={title}
@@ -109,7 +117,11 @@ export default function EditorPage(props) {
                 label="Tags"
                 allowDuplicates={false}
                 defaultValue={tags}
-                style={{ marginBottom: "1rem" , marginLeft: "0.5rem", marginRight: "0.5rem"}}
+                style={{
+                  marginBottom: "1rem",
+                  marginLeft: "0.5rem",
+                  marginRight: "0.5rem",
+                }}
                 onChange={tags_onchange}
               />
               <Editor
